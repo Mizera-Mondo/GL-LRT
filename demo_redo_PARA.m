@@ -29,7 +29,7 @@ Ar = Ar./sum(Ar, "all")*nodeNum;
 Lr = diag(sum(Ar)) - Ar;
 
 % Estimation
-[X, Lest] = GL_LRC(Y, R, usedEigNum, alpha = alpha, beta = beta, debug = true, LowRankEst = true);
+[X, Lest] = GL_LRC_PARA(Y, R, usedEigNum, alpha = alpha, beta = beta, debug = true, LowRankEst = true);
 
 DX = D(X);
 M = genM(DX);
