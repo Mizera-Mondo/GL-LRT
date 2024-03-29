@@ -55,7 +55,7 @@ elseif strcmp(options.method, 'CVX')
     ze = zeros(n, 1);
     cvx_begin quiet
         variable A(n, n) symmetric nonnegative
-        minimize square_pos(norm(A, 'fro')) + square_pos(norm(A*ones(1, n), 'fro')) + alpha/(2*beta)*trace(A*M)
+        minimize square_pos(norm(A, 'fro')) + square_pos(norm(A*ones(n, 1), 'fro')) + alpha/(2*beta)*trace(A*M)
         subject to
             diag(A) == ze;
             on'*A*on == n;

@@ -50,11 +50,11 @@ while ~isConverge && ~isMaxIter
     if options.debug
         disp("Starting Graph Refinement...");
         tic
-        A = SolveSubA(M, alpha, beta);
+        A = SolveSubA(M, alpha, beta,"method","CVX");
         toc
 
     else
-        A = SolveSubA(M, alpha, beta);
+        A = SolveSubA(M, alpha, beta,"method","CVX");
     end
 
 
