@@ -5,9 +5,10 @@ arguments
     options.method = 'quadprog'
 end
 
-if strcmp(options.method, 'quadprog')
+[n, ~] = size(M);
 
-    [n, ~] = size(M);
+if strcmp(options.method, 'quadprog')
+    
     Aeq = [];
     beq = [];
     Aie = [];
@@ -50,7 +51,6 @@ if strcmp(options.method, 'quadprog')
     A = vec2mat(A, n);
 
 elseif strcmp(options.method, 'CVX')
-    [n, ~] = size(M);
     on = ones(n, 1);
     ze = zeros(n, 1);
     cvx_begin quiet
@@ -60,7 +60,37 @@ elseif strcmp(options.method, 'CVX')
             diag(A) == ze;
             on'*A*on == n;
     cvx_end
-
+elseif strcmp(options.method, 'ADMM')
+    isADMMConverge = false;
+    isMaxIter = false;
+    % Initialize vars
+    A = zeros(n, n);
+    K = A;
+    Phi = zeros(n, n);
+    rho = 1;
+    tol = 1e-4;
+    iter = 0;
+    maxIter = 1000;
+    while ~isADMMConverge && ~isMaxIter
+        iter = iter + 1;
+        A_old = A;
+        K_old = K;
+        % Update of A
+        A = (rho*K - Phi - alpha/beta*M)/((2+rho)*eye(n) + 2*ones(n, n));
+        % Update of K
+        K = ProjectAOntoVaildSet(A + Phi./rho, n);
+        % Update of Phi, rho
+        Phi = Phi + rho*(A - K);
+        rho = 1.05*rho;
+        % Convergence check
+        if norm(A_old - A, 'fro')/(norm(A_old, 'fro')+1e-10) < tol && ...
+                norm(K_old - K, 'fro')/(norm(K_old, 'fro')+1e-10) < tol
+            isADMMConverge = true;
+        end
+        if iter >= maxIter
+            isMaxIter = true;
+        end
+    end
 else
     error('%s is not a vaild solver!', options.method);
 end

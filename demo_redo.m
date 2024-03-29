@@ -2,10 +2,10 @@
 currentPath = pwd;
 addpath(genpath(currentPath));
 % Initialization
-nodeNum = 100;
-usedEigNum = 80;
-signalLength = 150;
-noiseCov = 0.5;
+nodeNum = 50;
+usedEigNum = 30;
+signalLength = 1500;
+noiseCov = 0.1;
 rPertubation = 0;
 threA = 1e-3;
 % Signal Generation
@@ -17,7 +17,7 @@ B = zeros(signalLength);
 B(1:end - 1, 2:end) = eye(signalLength - 1);
 D = @(X) X - R*X*B;
 alpha = 0.1;
-beta = 1;
+beta = 10;
 
 % For Debug: The Target Function
 targ1 = @(X, L) alpha*trace((D(X))'*L*D(X));
