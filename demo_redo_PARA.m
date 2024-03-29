@@ -2,9 +2,9 @@
 currentPath = pwd;
 addpath(genpath(currentPath));
 % Initialization
-nodeNum = 150;
-usedEigNum = 5;
-signalLength = 100;
+nodeNum = 100;
+usedEigNum = 20;
+signalLength = 150;
 noiseCov = 0.5;
 rPertubation = 0;
 threA = 1e-3;
@@ -48,13 +48,13 @@ disp("Loss of groundtruth: " + num2str(targ1(X, L)) + ", " + num2str(targ2(X, L)
 disp("Loss of estimated: " + num2str(targ1(X, Lest)) + ", " + num2str(targ2(X, Lest)));
 disp("Loss of random: " + num2str(targ1(X, Lr)) + ", " + num2str(targ2(X, Lr)));
 % Visualized Results
-% close all;
+close all;
 figure;
 subplot(2, 2, 1)
 imagesc(L); colorbar; title('Ground Truth');
 subplot(2, 2, 2)
 imagesc(Lest); colorbar; title('Estimated');
 subplot(2, 2, 3)
-[~, S, ~] = svd(Y); imagesc(S(:, 1:nodeNum)); colorbar; title("Singular Values of Sampled Signals");
+[~, S, ~] = svd(Y); imagesc(S(:, 1:min(nodeNum, signalLength))); colorbar; title("Singular Values of Sampled Signals");
 subplot(2, 2, 4)
-[~, S, ~] = svd(X); imagesc(S(:, 1:nodeNum)); colorbar; title("Singular Values of Denoised Signals");
+[~, S, ~] = svd(X); imagesc(S(:, 1:min(nodeNum, signalLength))); colorbar; title("Singular Values of Denoised Signals");
