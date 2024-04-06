@@ -3,7 +3,7 @@ function [A, L] = genNormalRGG(nodeNum, options)
     arguments
         nodeNum double
         options.dimen = 2;
-        options.thre = 0.7;
+        options.thre = 0.85;
     end
     
     sigma = 0.5;
@@ -11,7 +11,7 @@ function [A, L] = genNormalRGG(nodeNum, options)
     [~, D] = random_geometric_graph(nodeNum, options.dimen, options.thre);
     A = reCalcWeight(D);
     % A is natrually symmetric
-    A(A > options.thre) = 0;
+    A(A < options.thre) = 0;
     A = A./sum(A, "all")*nodeNum;
     L = diag(sum(A)) - A;
 end
