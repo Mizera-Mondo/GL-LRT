@@ -2,9 +2,9 @@
 currentPath = pwd;
 addpath(genpath(currentPath));
 
-beta_list = [0.1, 0.5, 1, 2, 5, 10, 15, 20, 27, 34, 42, 50];
-nodeNum = 25;
-signalLength = 100;
+beta_list = [100, 200, 400, 800, 1000];
+nodeNum = 30;
+signalLength = 1000;
 eigenPara = 0.5;
 times = 1:12;
 res_list = zeros(1, 18);
